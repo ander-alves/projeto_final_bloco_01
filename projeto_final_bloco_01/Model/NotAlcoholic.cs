@@ -9,7 +9,7 @@ namespace projeto_final_bloco_01.Model
     public class NotAlcoholic : Products
     {
         private string description;
-        public NotAlcoholic(int id, string name, int quantity, decimal price, string description) : base(id, name, quantity, price)
+        public NotAlcoholic(int id, string name, int quantity,int type, decimal price, string description) : base(id, name, quantity,type, price)
         {
             this.description = description;
         }

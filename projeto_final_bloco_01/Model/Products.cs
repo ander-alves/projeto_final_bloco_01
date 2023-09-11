@@ -11,13 +11,15 @@ namespace projeto_final_bloco_01.Model
         private int id;
         private string name;
         private int quantity;
+        private int type;
         private decimal price;
 
-        protected Products(int id, string name, int quantity, decimal price)
+        protected Products(int id, string name, int quantity,int type, decimal price)
         {
             this.id = id;
             this.name = name;
             this.quantity = quantity;
+            this.type = type;
             this.price = price;
         }
 
@@ -25,6 +27,8 @@ namespace projeto_final_bloco_01.Model
         public void SetID(int id) { this.id = id;}
         public string GetName() { return name; }
         public void SetName(string name) {  this.name = name;}
+        public int GetType() { return type; }
+        public void SetType(int type) { this.type = type;}
         public int GetQuantity() { return quantity; }
         public void SetQuantity(int quantity) {  this.quantity = quantity;}
         public decimal GetPrice() { return price; }

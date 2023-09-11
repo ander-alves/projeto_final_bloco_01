@@ -8,15 +8,15 @@ namespace projeto_final_bloco_01.Model
 {
     public class Alcoholics : Products
     {
-        private int alcoholContent;
+        private decimal alcoholContent;
 
-        public Alcoholics(int id, string name, int quantity, decimal price, int alcoholContent) : base(id, name, quantity, price)
+        public Alcoholics(int id, string name, int quantity, int type, decimal price, decimal alcoholContent) : base(id, name, quantity, type, price)
         {
             this.alcoholContent = alcoholContent;
         }
 
-        public int GetAlcoholContent() { return this.alcoholContent; }
-        public void SetAlcoholContent(int alcoholContent) { this.alcoholContent = alcoholContent; }
+        public decimal GetAlcoholContent() { return this.alcoholContent; }
+        public void SetAlcoholContent(decimal alcoholContent) { this.alcoholContent = alcoholContent; }
 
 
 

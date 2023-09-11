@@ -1,6 +1,8 @@
 ﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.ComponentModel;
 using System.Drawing;
+using projeto_final_bloco_01.Controller;
+using projeto_final_bloco_01.Model;
 
 namespace projeto_final_bloco_01
 {
@@ -9,8 +11,10 @@ namespace projeto_final_bloco_01
         private static ConsoleKeyInfo consoleKeyInfo;
         static void Main(string[] args)
         {
+            ProductsController controller = new();
+
             int option, type, category,id, quantity,age,number;
-            string? name,flavor;
+            string? name,flavor, description;
             decimal price;
 
             while (true)
@@ -65,7 +69,7 @@ namespace projeto_final_bloco_01
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Cadastrar Produto\n\n");
                         Console.ResetColor();
-                        //id = controller.gerarId(); //TODOcriarfuncao
+                        id = controller.gerarId();
                         Console.WriteLine("Digite o Nome do Produto: ");
                         name = Console.ReadLine();
 
@@ -91,13 +95,13 @@ namespace projeto_final_bloco_01
                                 {
                                     throw new Exception("O teor alcoólico deve estar entre 0.1% e 100%.");
                                 }
-                                //lógica para cadastrar o produto alcoólico.
+                                controller.Create(new Alcoholics(id, name, quantity, type, price, alcoholContent));
                                 break;
 
                             case 2:  // Não Alcoólico
-                                Console.WriteLine("Informe o Sabor: ");
-                                flavor = Console.ReadLine();
-                                // lógica para cadastrar o produto não alcoólico.
+                                Console.WriteLine("Informe uma Descrição: ");
+                                description = Console.ReadLine();
+                                controller.Create(new NotAlcoholic(id, name, quantity,type, price, description));
                                 break;
                         }
 
@@ -108,7 +112,7 @@ namespace projeto_final_bloco_01
                         Console.WriteLine("Listar Todos os Produtos\n\n");
                         Console.ResetColor();
 
-                        //produtos.ListAll();
+                        controller.ListAll();
 
                         KeyPress();
                         break;
@@ -119,8 +123,8 @@ namespace projeto_final_bloco_01
 
                         Console.WriteLine("Digite o Numero do Produto: ");
 
-                        number = Convert.ToInt32(Console.ReadLine());
-                        //produto.ProcurarPorNumero(number);
+                        id = Convert.ToInt32(Console.ReadLine());
+                        controller.FindById(id);
 
                         KeyPress();
                         break;
@@ -130,9 +134,35 @@ namespace projeto_final_bloco_01
                         Console.ResetColor();
 
                         Console.WriteLine("Digite o número do Produto: ");
-                        number = Convert.ToInt32(Console.ReadLine());
+                        id = Convert.ToInt32(Console.ReadLine());
 
+                        var product = controller.FindOnCollection(id);
                         
+                        if (product != null)
+                            Console.WriteLine("Digite o Nome do Produto: ");
+                            name = Console.ReadLine();
+                        Console.WriteLine("Digite a Quantidade: ");
+                        quantity = Convert.ToInt32(Console.ReadLine());
+
+                        Console.WriteLine("Digite o Preço: ");
+                        price = Convert.ToDecimal(Console.ReadLine());
+
+                        type = product.GetType();
+
+                        switch (type)
+                        {
+                            case 1:
+                                Console.WriteLine("Informe o Teor Alcoólico (em %): ");
+                                decimal alcoholContent = Convert.ToDecimal(Console.ReadLine());
+                                controller.Update(new Alcoholics(id,name,quantity,type,price,alcoholContent));
+                                break;
+                            case 2:
+                                Console.WriteLine("Digite o dia do Aniversário da Conta: ");
+                                description = Console.ReadLine();
+                                controller.Update(new NotAlcoholic(id, name, quantity,type, price, description));
+                                break;
+                        }
+
                         KeyPress();
                         break;
                     case 5:
@@ -142,8 +172,8 @@ namespace projeto_final_bloco_01
                         Console.ResetColor();
                         Console.WriteLine("Digite o Numero do Produto: ");
 
-                        number = Convert.ToInt32(Console.ReadLine());
-                        //produtos.delete(number);
+                        id = Convert.ToInt32(Console.ReadLine());
+                        controller.Delete(id);
 
                         KeyPress();
                         break;
@@ -152,12 +182,12 @@ namespace projeto_final_bloco_01
                         Console.WriteLine("Buscar Produto por Nome: \n\n");
                         Console.ResetColor();
 
-                        Console.WriteLine("Digite o Numero da Conta: ");
+                        Console.WriteLine("Digite o nome do Produto: ");
                         name = Console.ReadLine();
                         
                         name ??= string.Empty;
 
-                        //controller.ListarPorName(name);
+                        controller.FindByName(name);
 
                         KeyPress();
                         break;
@@ -204,18 +234,6 @@ namespace projeto_final_bloco_01
                 " | |_| | (_| | (_) | |_| |  __/ | |\\ V /  __/ |  | |_| |\r\n" +
                 "  \\___/ \\__,_|\\___/|____/ \\___|_|_| \\_/ \\___|_|   \\__, |\r\n" +
                 "                                                  |___/ ");
-
-
-
-
-
-
-
-
-
-
-
-
         }
     }
 }
